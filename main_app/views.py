@@ -1,14 +1,15 @@
 from django.shortcuts import render
 
 # Create your views here.
-# Add the following import
 from django.http import HttpResponse
-from .boardgameclass import boardgames
-# Define the home view
+
+
+# Our Models
+from .models import Boardgame
 
 
 def home(request):
-    return HttpResponse('<h1>Hello /ᐠ｡‸｡ᐟ\ﾉ</h1>')
+    return render(request, 'home.html')
 
 
 def about(request):
@@ -16,4 +17,13 @@ def about(request):
 
 
 def boardgames_index(request):
+    boardgames = Boardgame.objects.all()
     return render(request, 'boardgames/index.html', {'boardgames': boardgames})
+
+
+def boardgames_detail(request, boardgame_id):
+    boardgame = Boardgame.objects.get(id=boardgame_id)
+    context = {
+        'boardgame': boardgame
+    }
+    return render(request, 'boardgames/detail.html', context)
