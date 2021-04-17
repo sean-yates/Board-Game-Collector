@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Create your views here.
@@ -7,6 +7,7 @@ from django.http import HttpResponse
 
 # Our Models
 from .models import Boardgame
+from .forms import PieceForm
 
 
 def home(request):
@@ -24,8 +25,10 @@ def boardgames_index(request):
 
 def boardgames_detail(request, boardgame_id):
     boardgame = Boardgame.objects.get(id=boardgame_id)
+    piece_form = PieceForm()
     context = {
-        'boardgame': boardgame
+        'boardgame': boardgame,
+        'piece_form': piece_form
     }
     return render(request, 'boardgames/detail.html', context)
 
@@ -44,3 +47,12 @@ class BoardgameUpdate(UpdateView):
 class BoardgameDelete(DeleteView):
     model = Boardgame
     success_url = '/boardgames/'
+
+
+def add_piece(request, boardgame_id):
+    form = PieceForm(request.POST)
+    if form.is_valid():
+        new_piece = form.save(commit=False)
+        new_piece.boardgame_id = boardgame_id
+        new_piece.save()
+    return redirect('detail', boardgame_id=boardgame_id)

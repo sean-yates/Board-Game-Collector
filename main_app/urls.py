@@ -13,4 +13,6 @@ urlpatterns = [
          views.BoardgameUpdate.as_view(), name='boardgames_update'),
     path('boardgames/<int:pk>/delete/',
          views.BoardgameDelete.as_view(), name='boardgames_delete'),
+    path('boardgames/<int:boardgame_id>/add_piece/',
+         views.add_piece, name='add_piece'),
 ]
