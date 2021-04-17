@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic.edit import CreateView
 
 # Create your views here.
 from django.http import HttpResponse
@@ -27,3 +28,8 @@ def boardgames_detail(request, boardgame_id):
         'boardgame': boardgame
     }
     return render(request, 'boardgames/detail.html', context)
+
+
+class BoardgameCreate(CreateView):
+    model = Boardgame
+    fields = '__all__'
