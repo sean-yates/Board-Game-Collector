@@ -9,6 +9,10 @@
     <p>players: {{ boardgame.players }}</p>
     <p>playtime: {{ boardgame.playtime }}</p>
   </div>
+  <div class="card-action">
+    <a href="{% url 'boardgames_update' boardgame.id %}">Edit</a>
+    <a href="{% url 'boardgames_delete' boardgame.id %}">Delete</a>
+  </div>
 </div>
 
 {% endblock %}

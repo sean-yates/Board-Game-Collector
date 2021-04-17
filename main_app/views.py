@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Create your views here.
 from django.http import HttpResponse
@@ -33,3 +33,14 @@ def boardgames_detail(request, boardgame_id):
 class BoardgameCreate(CreateView):
     model = Boardgame
     fields = '__all__'
+
+
+class BoardgameUpdate(UpdateView):
+    model = Boardgame
+    # Let's disallow the renaming of a Boardgame by excluding the name field!
+    fields = ['genre', 'players', 'playtime']
+
+
+class BoardgameDelete(DeleteView):
+    model = Boardgame
+    success_url = '/boardgames/'
