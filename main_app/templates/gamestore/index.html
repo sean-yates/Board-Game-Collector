@@ -1,0 +1,19 @@
+{% for gamestore in gamestores %}
+
+<div class="card">
+  <a href="{% url 'gamestore_detail' gamestore.id %}">
+    <div class="card-content">
+      <span class="card-title">{{ gamestore.name }}</span>
+      <p>Location: {{ gamestore.location }}</p>
+    </div>
+  </a>
+</div>
+{% empty %}
+
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">No gamestores</span>
+  </div>
+</div>
+
+{% endfor %}

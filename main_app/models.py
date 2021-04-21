@@ -4,11 +4,17 @@ from django.urls import reverse
 # Create your models here.
 
 
+class Gamestore(models.Model):
+    name = models.CharField(max_length=50)
+    location = models.CharField(max_length=50)
+
+
 class Boardgame(models.Model):
     name = models.CharField(max_length=100)
     genre = models.CharField(max_length=100)
     players = models.CharField(max_length=100)
     playtime = models.CharField(max_length=100)
+    gamestores = models.ManyToManyField(Gamestore)
 
     def __str__(self):
         return self.name

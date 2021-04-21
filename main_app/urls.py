@@ -15,4 +15,16 @@ urlpatterns = [
          views.BoardgameDelete.as_view(), name='boardgames_delete'),
     path('boardgames/<int:boardgame_id>/add_piece/',
          views.add_piece, name='add_piece'),
+
+
+    # gamestore urls
+    path('gamestores/', views.gamestore_index, name='all_gamestores'),
+    path('gamestores/<int:gamestore_id>/',
+         views.gamestore_detail, name='gamestore_detail'),
+    path('gamestore/create/', views.Create_Gamestore.as_view(),
+         name='create_gamestore'),
+    path('gamestores/<int:pk>/update/',
+         views.Update_gamestore.as_view(), name='update_gamestore'),
+    path('gamestores/<int:pk>/delete/',
+         views.Delete_gamestore.as_view(), name='delete_gamestore'),
 ]

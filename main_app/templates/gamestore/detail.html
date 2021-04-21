@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Gamestore Details</h1>
+
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{ gamestore.name }}</span>
+    <p>location: {{ gamestore.location }}</p>
+  </div>
+  <div class="card-action">
+    <a href="{% url 'update_gamestore' gamestore.id %}">Edit</a>
+    <a href="{% url 'delete_gamestore' gamestore.id %}">Delete</a>
+  </div>
+</div>
+
+{% endblock %}

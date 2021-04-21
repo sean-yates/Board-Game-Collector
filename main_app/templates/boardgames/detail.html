@@ -38,5 +38,22 @@
       </tbody>
     </table>
   </div>
+  <hr />
+  <div class="row">
+    <div class="col s6">
+      <h3>Game Stores with {{ boardgame.name }}</h3>
+      {% for gamestore in boardgame.gamestores.all %}
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">
+            {{ gamestore.name }} in {{gamestore.location }}
+          </span>
+        </div>
+      </div>
+      {% empty %}
+      <h5>No Game Stores :(</h5>
+      {% endfor %}
+    </div>
+  </div>
+  {% endblock %}
 </div>
-{% endblock %}

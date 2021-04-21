@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 
 # Our Models
-from .models import Boardgame
+from .models import Boardgame, Gamestore
 from .forms import PieceForm
 
 
@@ -35,7 +35,7 @@ def boardgames_detail(request, boardgame_id):
 
 class BoardgameCreate(CreateView):
     model = Boardgame
-    fields = '__all__'
+    fields = ['name', 'genre', 'players', 'playtime']
 
 
 class BoardgameUpdate(UpdateView):
@@ -56,3 +56,35 @@ def add_piece(request, boardgame_id):
         new_piece.boardgame_id = boardgame_id
         new_piece.save()
     return redirect('detail', boardgame_id=boardgame_id)
+
+# Gamestore views
+
+
+def gamestore_index(request):
+    gamestores = Gamestore.objects.all()
+    context = {'gamestores': gamestores}
+
+    return render(request, 'gamestore/index.html', context)
+
+
+def gamestore_detail(request, gamestore_id):
+    gamestore = Gamestore.objects.get(id=gamestore_id)
+    context = {
+        'gamestore': gamestore
+    }
+    return render(request, 'gamestore/detail.html', context)
+
+
+class Create_Gamestore(CreateView):
+    model = Gamestore
+    fields = '__all__'
+
+
+class Update_gamestore(UpdateView):
+    model = Gamestore
+    fields = ['location']
+
+
+class Delete_gamestore(DeleteView):
+    model = Gamestore
+    success_url = '/gamestores/'
