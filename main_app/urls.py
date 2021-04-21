@@ -15,8 +15,10 @@ urlpatterns = [
          views.BoardgameDelete.as_view(), name='boardgames_delete'),
     path('boardgames/<int:boardgame_id>/add_piece/',
          views.add_piece, name='add_piece'),
-    path('boardgamess/<int:boardgame_id>/assoc_gamestore/<int:gamestore_id>/',
+    path('boardgames/<int:boardgame_id>/assoc_gamestore/<int:gamestore_id>/',
          views.assoc_gamestore, name='assoc_gamestore'),
+    path('boardgames/<int:boardgame_id>/disassoc_gamestore/<int:gamestore_id>/',
+         views.disassoc_gamestore, name='disassoc_gamestore'),
 
 
     # gamestore urls

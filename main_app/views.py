@@ -94,6 +94,9 @@ class Delete_gamestore(DeleteView):
 
 
 def assoc_gamestore(request, boardgame_id, gamestore_id):
-    # Note that you can pass a toy's id instead of the whole object
     Boardgame.objects.get(id=boardgame_id).gamestores.add(gamestore_id)
+    return redirect('detail', boardgame_id=boardgame_id)
+
+def disassoc_gamestore(request, boardgame_id, gamestore_id):
+    Boardgame.objects.get(id=boardgame_id).gamestores.remove(gamestore_id)
     return redirect('detail', boardgame_id=boardgame_id)

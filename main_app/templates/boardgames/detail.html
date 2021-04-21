@@ -45,10 +45,16 @@
       {% for gamestore in boardgame.gamestores.all %}
       <div class="card">
         <div class="card-content">
-          <span class="card-title">
-            {{ gamestore.name }} in {{gamestore.location }}
-          </span>
+          <span class="card-title"> {{gamestore.name}} in {{gamestore.location}}</span>
         </div>
+        <form
+          action="{% url 'disassoc_gamestore' boardgame.id gamestore.id %}"
+          method="post"
+        >
+          {% csrf_token %}
+          <button type="submit" class="btn">Remove</button>
+        </form>
+      </div>
       </div>
       {% empty %}
       <h5>No Game Stores :(</h5>
@@ -61,7 +67,7 @@
     <div class="card">
       <div class="card-content">
         <span class="card-title"
-          >{{gamestore.name}} in {{gamestore.location }}</span
+          >{{gamestore.name}} in {{gamestore.location}}</span
         >
       </div>
       <div class="card-action">
