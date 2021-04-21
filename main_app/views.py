@@ -25,10 +25,13 @@ def boardgames_index(request):
 
 def boardgames_detail(request, boardgame_id):
     boardgame = Boardgame.objects.get(id=boardgame_id)
+    gamestores_boardgame_doesnt_have = Gamestore.objects.exclude(
+        id__in=boardgame.gamestores.all().values_list('id'))
     piece_form = PieceForm()
     context = {
         'boardgame': boardgame,
-        'piece_form': piece_form
+        'piece_form': piece_form,
+        'gamestores': gamestores_boardgame_doesnt_have
     }
     return render(request, 'boardgames/detail.html', context)
 
@@ -88,3 +91,9 @@ class Update_gamestore(UpdateView):
 class Delete_gamestore(DeleteView):
     model = Gamestore
     success_url = '/gamestores/'
+
+
+def assoc_gamestore(request, boardgame_id, gamestore_id):
+    # Note that you can pass a toy's id instead of the whole object
+    Boardgame.objects.get(id=boardgame_id).gamestores.add(gamestore_id)
+    return redirect('detail', boardgame_id=boardgame_id)

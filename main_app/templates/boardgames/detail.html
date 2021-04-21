@@ -55,5 +55,28 @@
       {% endfor %}
     </div>
   </div>
+  <div class="col s6">
+    <h3>Available Game Stores</h3>
+    {% if gamestores.count %} {% for gamestore in gamestores.all %}
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title"
+          >{{gamestore.name}} in {{gamestore.location }}</span
+        >
+      </div>
+      <div class="card-action">
+        <form
+          action="{% url 'assoc_gamestore' boardgame.id gamestore.id %}"
+          method="post"
+        >
+          {% csrf_token %}
+          <button type="submit" class="btn">Add</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %} {% else %}
+    <h5>{{boardgame.name}} is already at all listed game stores</h5>
+    {% endif %}
+  </div>
   {% endblock %}
 </div>
