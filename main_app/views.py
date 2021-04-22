@@ -6,8 +6,14 @@ from django.http import HttpResponse
 
 
 # Our Models
-from .models import Boardgame, Gamestore
+from .models import Boardgame, Gamestore, Photo
 from .forms import PieceForm
+
+import uuid
+import boto3
+
+S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+BUCKET = 'boardgamescollector'
 
 
 def home(request):
@@ -99,4 +105,18 @@ def assoc_gamestore(request, boardgame_id, gamestore_id):
 
 def disassoc_gamestore(request, boardgame_id, gamestore_id):
     Boardgame.objects.get(id=boardgame_id).gamestores.remove(gamestore_id)
+    return redirect('detail', boardgame_id=boardgame_id)
+
+def add_photo(request, boardgame_id):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            photo = Photo(url = url, boardgame_id = boardgame_id)
+            photo.save()
+        except:
+            print('An error occured uploading file to S3')
     return redirect('detail', boardgame_id=boardgame_id)
