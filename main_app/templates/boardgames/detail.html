@@ -1,6 +1,8 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block content %}
 
 <h1>Board Game Details</h1>
+
 <div class="row">
   <div class="col s6">
     <div class="card">
@@ -20,6 +22,7 @@
       {% empty %}
         <div class="card-panel teal-text center-align">No Photos Uploaded</div>
       {% endfor %}
+
     <form action="{% url 'add_photo' boardgame.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
         {% csrf_token %}
         <input type="file" name="photo-file">
@@ -27,49 +30,60 @@
         <input type="submit" class="btn" value="Upload Photo">
     </form>
   </div>
-  <hr />
+
+
   <div class="col s6">
     <form action="{% url 'add_piece' boardgame.id %}" method="post">
-      {% csrf_token %} {{ piece_form.as_p }}
+      {% csrf_token %}
+      {{ piece_form.as_p }}
       <input type="submit" class="btn" value="Add Piece" />
     </form>
     <table class="striped">
       <thead>
-        <tr>
-          <th>Name</th>
-          <th>Size</th>
-        </tr>
+        <tr><th>Name</th><th>Size</th></tr>
       </thead>
       <tbody>
         {% for piece in boardgame.piece_set.all %}
-        <tr>
-          <td>{{piece.name}}</td>
-          <td>{{piece.size}}</td>
-        </tr>
+          <tr>
+            <td>{{piece.name}}</td>
+            <td>{{piece.size}}</td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 </div>
+
+<hr>
 <div class="row">
-  <div class="col s6">
-    <h3>Game Stores with {{ boardgame.name }}</h3>
-    {% for gamestore in boardgame.gamestores.all %}
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title"> {{gamestore.name}} in {{gamestore.location}}</span>
-      </div>
+<div class="col s6">
+<h3>Game Stores with {{ boardgame.name }}</h3>
+
+{% for gamestore in boardgame.gamestores.all %}
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">
+        {{gamestore.name}} in {{gamestore.location}}
+      </span>
+    </div>
+    <div class="card-action">
       <form action="{% url 'disassoc_gamestore' boardgame.id gamestore.id %}" method="post">
         {% csrf_token %}
         <button type="submit" class="btn">Remove</button>
-      </form>
-    </div>
-    </div>
-    {% empty %}
-    <h5>No Game Stores :(</h5>
-    {% endfor %}
+    </form>
   </div>
-  <div class="col s6">
+</div>
+
+{% empty %}
+<h5>No Game Stores :(</h5>
+
+{% endfor %}
+
+
+</div>
+
+
+<div class="col s6">
     <h3>Available Game Stores</h3>
     {% if gamestores.count %} {% for gamestore in gamestores.all %}
     <div class="card">
