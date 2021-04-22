@@ -16,6 +16,7 @@
       </div>
     </div>
   </div>
+  <hr />
   <div class="col s6">
     <form action="{% url 'add_piece' boardgame.id %}" method="post">
       {% csrf_token %} {{ piece_form.as_p }}
@@ -38,51 +39,42 @@
       </tbody>
     </table>
   </div>
-  <hr />
-  <div class="row">
-    <div class="col s6">
-      <h3>Game Stores with {{ boardgame.name }}</h3>
-      {% for gamestore in boardgame.gamestores.all %}
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title"> {{gamestore.name}} in {{gamestore.location}}</span>
-        </div>
-        <form
-          action="{% url 'disassoc_gamestore' boardgame.id gamestore.id %}"
-          method="post"
-        >
-          {% csrf_token %}
-          <button type="submit" class="btn">Remove</button>
-        </form>
+</div>
+<div class="row">
+  <div class="col s6">
+    <h3>Game Stores with {{ boardgame.name }}</h3>
+    {% for gamestore in boardgame.gamestores.all %}
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title"> {{gamestore.name}} in {{gamestore.location}}</span>
       </div>
-      </div>
-      {% empty %}
-      <h5>No Game Stores :(</h5>
-      {% endfor %}
+      <form action="{% url 'disassoc_gamestore' boardgame.id gamestore.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn">Remove</button>
+      </form>
     </div>
+    </div>
+    {% empty %}
+    <h5>No Game Stores :(</h5>
+    {% endfor %}
   </div>
   <div class="col s6">
     <h3>Available Game Stores</h3>
     {% if gamestores.count %} {% for gamestore in gamestores.all %}
     <div class="card">
       <div class="card-content">
-        <span class="card-title"
-          >{{gamestore.name}} in {{gamestore.location}}</span
-        >
+        <span class="card-title">{{gamestore.name}} in {{gamestore.location}}</span>
       </div>
       <div class="card-action">
-        <form
-          action="{% url 'assoc_gamestore' boardgame.id gamestore.id %}"
-          method="post"
-        >
+        <form action="{% url 'assoc_gamestore' boardgame.id gamestore.id %}" method="post">
           {% csrf_token %}
           <button type="submit" class="btn">Add</button>
         </form>
       </div>
     </div>
     {% endfor %} {% else %}
-    <h5>{{boardgame.name}} is already at all listed game stores</h5>
+      <h5>{{boardgame.name}} is already at all listed game stores</h5>
     {% endif %}
+{% endblock %}
   </div>
-  {% endblock %}
 </div>
